@@ -1,4 +1,5 @@
 ﻿using LabApi.Events.Arguments.PlayerEvents;
+using LabApi.Events.Arguments.ServerEvents;
 using LabApi.Events.CustomHandlers;
 
 namespace SLPlugin.Events;
@@ -16,5 +17,20 @@ public sealed class KillCountEventsHandler: CustomEventsHandler {
 		if (!Storage.Kills.TryAdd(ev.Attacker.UserId, 1)) {
 			Storage.Kills[ev.Attacker.UserId] += 1;
 		}
+	}
+
+	/// <inheritdoc />
+	public override void OnServerRoundEnded(RoundEndedEventArgs ev) {
+		Storage.Kills.Clear();
+	}
+
+	/// <inheritdoc />
+	public override void OnServerRoundRestarted() {
+		Storage.Kills.Clear();
+	}
+
+	/// <inheritdoc />
+	public override void OnServerRoundStarted() {
+		Storage.Kills.Clear();
 	}
 }

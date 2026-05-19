@@ -10,7 +10,7 @@ namespace SLPlugin;
 /// <summary>
 /// Base of the plugin
 /// </summary>
-public sealed class SLPlugin: Plugin {
+public sealed class SLPlugin: Plugin<Config> {
 	/// <inheritdoc />
 	public override string Name => "SLPlugin";
 
@@ -21,10 +21,15 @@ public sealed class SLPlugin: Plugin {
 	public override string Author => "Relonde";
 
 	/// <inheritdoc />
-	public override Version Version => new(1, 1, 1);
+	public override Version Version => new(1, 1, 2);
 
 	/// <inheritdoc />
 	public override Version RequiredApiVersion => new(LabApiProperties.CompiledVersion);
+
+	/// <summary>
+	/// Instance of the plugin after being enabled by the server
+	/// </summary>
+	public static SLPlugin? Instance { get; private set; }
 
 	/// <summary>
 	/// List of all event handlers used by the plugin.
@@ -33,7 +38,10 @@ public sealed class SLPlugin: Plugin {
 
 	/// <inheritdoc />
 	public override void Enable() {
+		Instance = this;
+
 		EventHandlers.Add(new KillCountEventsHandler());
+		EventHandlers.Add(new HintsEventsHandler());
 
 		foreach (var handler in EventHandlers) {
 			CustomHandlersManager.RegisterEventsHandler(handler);
@@ -45,5 +53,7 @@ public sealed class SLPlugin: Plugin {
 		foreach (var handler in EventHandlers) {
 			CustomHandlersManager.UnregisterEventsHandler(handler);
 		}
+
+		Instance = null;
 	}
 }
