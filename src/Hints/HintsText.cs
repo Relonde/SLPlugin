@@ -5,6 +5,7 @@ using System.Text;
 using CustomPlayerEffects;
 using HintServiceMeow.Core.Models.Arguments;
 using LabApi.Features.Wrappers;
+using PlayerRoles.Voice;
 
 // Apparently HSM has a stroke if the methods to get text are static.
 // ReSharper disable MemberCanBeMadeStatic.Global
@@ -169,8 +170,21 @@ public class HintsText {
 			lines.Add(line);
 		}
 
-		var output = lines.Aggregate(string.Empty, static (current, line) => current + $"{line}\n");
+		var output = string.Empty;
 
+		if (player.IsGodModeEnabled)
+			output += "<color=#f5de5d>God Mode</color>\n";
+
+		if (player.IsBypassEnabled)
+			output += "<color=#f5de5d>God Mode</color>\n";
+
+		if (!player.IsSpectatable)
+			output += "<color=#f5de5d>Not Spectatable</color>\n";
+
+		if (Intercom.HasOverride(player.ReferenceHub))
+			output += "<color=#f5de5d>Global Intercom</color>\n";
+
+		output += lines.Aggregate(string.Empty, static (current, line) => current + $"{line}\n");
 		output.TrimEnd('\n');
 
 		return output;

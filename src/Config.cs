@@ -23,4 +23,7 @@ public sealed class Config {
 
 	[Description("If the hint showing a players current effects should be enabled.")]
 	public bool ShowEffectListHint { get; set; } = true;
+
+	[Description("If the default staff chat broadcasts should be replaced with a custom UI.")]
+	public bool UseCustomStaffChat { get; set; } = true;
 }

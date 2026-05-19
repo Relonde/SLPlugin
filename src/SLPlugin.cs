@@ -21,7 +21,7 @@ public sealed class SLPlugin: Plugin<Config> {
 	public override string Author => "Relonde";
 
 	/// <inheritdoc />
-	public override Version Version => new(1, 1, 2);
+	public override Version Version => new(1, 2, 1);
 
 	/// <inheritdoc />
 	public override Version RequiredApiVersion => new(LabApiProperties.CompiledVersion);
@@ -43,6 +43,9 @@ public sealed class SLPlugin: Plugin<Config> {
 		EventHandlers.Add(new KillCountEventsHandler());
 		EventHandlers.Add(new HintsEventsHandler());
 		EventHandlers.Add(new UnlimitedAmmoEventsHandler());
+
+		if (Instance.Config.UseCustomStaffChat)
+			EventHandlers.Add(new CustomStaffChatEventsHandler());
 
 		foreach (var handler in EventHandlers) {
 			CustomHandlersManager.RegisterEventsHandler(handler);

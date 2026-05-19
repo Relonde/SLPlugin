@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using HintServiceMeow.Core.Enum;
-using HintServiceMeow.Core.Models.Arguments;
 using HintServiceMeow.Core.Utilities;
 using LabApi.Features.Console;
 using LabApi.Features.Wrappers;
@@ -59,6 +60,64 @@ public static class HintsManager {
 
 		foreach (var hint in display.GetHints()) {
 			Logger.Debug(hint.Id);
+		}
+	}
+
+	// ReSharper disable once AsyncVoidMethod
+	public static async void ShowStaffChatHint(Player sender, string message) {
+		if (!SLPlugin.Instance!.Config.UseCustomStaffChat)
+			return;
+
+		var name = string.Empty;
+		var displays = (from player in Player.GetAll()
+		                where player.HasPermission(PlayerPermissions.AdminChat)
+		                select PlayerDisplay.Get(player)).ToList();
+
+		if (sender.ReferenceHub.serverRoles.HasBadgeHidden)
+			name += $"<color=#A0A0A0>[{sender.UserGroup!.BadgeText}]</color>";
+		else
+			name += $"<color=#{sender.ReferenceHub.serverRoles.CurrentColor.ColorHex}>" +
+			        $"[{sender.ReferenceHub.serverRoles.MyText.Trim('[', ']')}]</color> ";
+
+		name += sender.DisplayName;
+
+		var hints = new List<Hint> {
+			new Hint {
+				Id = "staffChat1",
+				YCoordinate = 60,
+				Text = $"<b>{SLPlugin.Instance.Config.Name} Staff Chat</b>",
+				FontSize = 22,
+				SyncSpeed = HintSyncSpeed.Normal
+			},
+			new Hint {
+				Id = "staffChat2",
+				YCoordinate = 85,
+				Text = $"<b>{name}</b>",
+				FontSize = 28,
+				SyncSpeed = HintSyncSpeed.Normal
+			},
+			new Hint {
+				Id = "staffChat3",
+				YCoordinate = 115,
+				Text = message,
+				FontSize = 32,
+				SyncSpeed = HintSyncSpeed.Normal
+			}
+		};
+
+		foreach (var display in displays) {
+			foreach (var hint in hints) {
+				display.AddHint(hint);
+			}
+		}
+
+		// 5 secs
+		await Task.Delay(new TimeSpan(0, 0, 5));
+
+		foreach (var display in displays) {
+			foreach (var hint in hints) {
+				display.RemoveHint(hint);
+			}
 		}
 	}
 }
