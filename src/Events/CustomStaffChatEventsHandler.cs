@@ -18,13 +18,14 @@ public sealed class CustomStaffChatEventsHandler: CustomEventsHandler {
 		if (!player!.HasPermission(PlayerPermissions.AdminChat))
 			return;
 
-		HintsManager.ShowStaffChatHint(player, ev.Message);
+		HintsManager.ShowStaffChatHints(player, ev.Message);
 
 		var targets = Player.GetAll().Where(static p => p.HasPermission(PlayerPermissions.AdminChat)).ToList();
 
 		foreach (var target in targets) {
 			target.ReferenceHub.encryptedChannelManager.TrySendMessageToClient(
 				$"{player.ReferenceHub.netId}!{ev.Message}", EncryptedChannelManager.EncryptedChannel.AdminChat);
+			target.ClearBroadcasts();
 
 			Logger.Debug("Sent in channel");
 		}

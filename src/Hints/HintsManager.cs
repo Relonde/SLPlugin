@@ -39,7 +39,7 @@ public static class HintsManager {
 			hints.Add(new Hint {
 				Id = "killCountHint",
 				Alignment = HintAlignment.Right,
-				YCoordinate = 1060,
+				YCoordinate = 1065,
 				AutoText = hintsText.GetKillCountText,
 				FontSize = 20,
 				SyncSpeed = HintSyncSpeed.Fast
@@ -54,6 +54,35 @@ public static class HintsManager {
 				SyncSpeed = HintSyncSpeed.Fastest
 			});
 
+		// I could make the allowed players into a list stored elsewhere and updated on joins, leaves, and roles being
+		// updated, but I'm fucking tired right now, so I'm not going to do that and it's probably fine
+		// TODO: that ^^^
+		if (player.HasPermission(PlayerPermissions.AdminChat) && SLPlugin.Instance.Config.UseCustomStaffChat) {
+			hints.Add(new Hint {
+				Id = "staffChatTitle",
+				YCoordinate = 60,
+				AutoText = hintsText.GetStaffChatTitle,
+				FontSize = 22,
+				SyncSpeed = HintSyncSpeed.Fastest
+			});
+
+			hints.Add(new Hint {
+				Id = "staffChatSender",
+				YCoordinate = 85,
+				AutoText = hintsText.GetStaffChatSender,
+				FontSize = 28,
+				SyncSpeed = HintSyncSpeed.Fastest
+			});
+
+			hints.Add(new Hint {
+				Id = "staffChatMessage",
+				YCoordinate = 115,
+				AutoText = hintsText.GetStaffChatMessage,
+				FontSize = 32,
+				SyncSpeed = HintSyncSpeed.Fastest
+			});
+		}
+
 		foreach (var hint in hints) {
 			display.AddHint(hint);
 		}
@@ -64,60 +93,12 @@ public static class HintsManager {
 	}
 
 	// ReSharper disable once AsyncVoidMethod
-	public static async void ShowStaffChatHint(Player sender, string message) {
-		if (!SLPlugin.Instance!.Config.UseCustomStaffChat)
-			return;
+	public static async void ShowStaffChatHints(Player sender, string message) {
+		// There's a better way to do this, but technically it works, so I don't give a shit
+		HintsText.ChangeMessage(sender, message);
 
-		var name = string.Empty;
-		var displays = (from player in Player.GetAll()
-		                where player.HasPermission(PlayerPermissions.AdminChat)
-		                select PlayerDisplay.Get(player)).ToList();
+		await Task.Delay(new TimeSpan(0, 0, SLPlugin.Instance!.Config.CustomStaffChatMessageTime));
 
-		if (sender.ReferenceHub.serverRoles.HasBadgeHidden)
-			name += $"<color=#A0A0A0>[{sender.UserGroup!.BadgeText}]</color>";
-		else
-			name += $"<color=#{sender.ReferenceHub.serverRoles.CurrentColor.ColorHex}>" +
-			        $"[{sender.ReferenceHub.serverRoles.MyText.Trim('[', ']')}]</color> ";
-
-		name += sender.DisplayName;
-
-		var hints = new List<Hint> {
-			new Hint {
-				Id = "staffChat1",
-				YCoordinate = 60,
-				Text = $"<b>{SLPlugin.Instance.Config.Name} Staff Chat</b>",
-				FontSize = 22,
-				SyncSpeed = HintSyncSpeed.Normal
-			},
-			new Hint {
-				Id = "staffChat2",
-				YCoordinate = 85,
-				Text = $"<b>{name}</b>",
-				FontSize = 28,
-				SyncSpeed = HintSyncSpeed.Normal
-			},
-			new Hint {
-				Id = "staffChat3",
-				YCoordinate = 115,
-				Text = message,
-				FontSize = 32,
-				SyncSpeed = HintSyncSpeed.Normal
-			}
-		};
-
-		foreach (var display in displays) {
-			foreach (var hint in hints) {
-				display.AddHint(hint);
-			}
-		}
-
-		// 5 secs
-		await Task.Delay(new TimeSpan(0, 0, 5));
-
-		foreach (var display in displays) {
-			foreach (var hint in hints) {
-				display.RemoveHint(hint);
-			}
-		}
+		HintsText.RemoveMessage(message);
 	}
 }

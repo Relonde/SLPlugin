@@ -23,6 +23,20 @@ In order that I implemented them:
   whatever the server wants, and it still allows messages to appear
   normally in the RA.
 
+## Known issues
+
+* The hints for the custom staff chat (if enabled in the config) are only
+  added at round start if a user has the `AdminChat` permission. This means
+  if someone loses their permissions while in a round, they will still be
+  able to see staff chat (but not send messages) until the round restarts.
+  I could fix this, but I'm tired as hell, so I'm not going to right now.
+* The project overly contains `!` to suppress nullable warnings. I believe
+  it should never be null for the usages, but this could definitely be
+  improved/fixed.
+* `HintsText` stores the latest staff chat message forever until another
+  message is sent. This should be pretty easy to fix, ill do that later
+
 ## Permissions
 
-`slplugin.uammo` - Controls if a player can use the `unlimited_ammo` command.
+* `slplugin.uammo` - Controls if a player can use the `unlimited_ammo`
+  command.

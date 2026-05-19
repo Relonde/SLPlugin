@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using CustomPlayerEffects;
@@ -12,7 +13,11 @@ using PlayerRoles.Voice;
 
 namespace SLPlugin.Hints;
 
-public class HintsText {
+public sealed class HintsText {
+	private static Player _staffChatSender;
+	private static string _staffChatMessage;
+	private static bool _staffChatActiveMessage;
+
 	/// <summary>
 	/// Gets the text for the killCountHint.
 	/// </summary>
@@ -149,7 +154,7 @@ public class HintsText {
 			var intensityText = effect.Intensity.ToString();
 
 			if (effectType == typeof(Scp1853)) {
-				intensityText = (effect.Intensity / 4).ToString();
+				intensityText = ((float) effect.Intensity / 4).ToString(CultureInfo.InvariantCulture);
 				showIntensity = true;
 			}
 
@@ -176,7 +181,7 @@ public class HintsText {
 			output += "<color=#f5de5d>God Mode</color>\n";
 
 		if (player.IsBypassEnabled)
-			output += "<color=#f5de5d>God Mode</color>\n";
+			output += "<color=#f5de5d>Bypass Mode</color>\n";
 
 		if (!player.IsSpectatable)
 			output += "<color=#f5de5d>Not Spectatable</color>\n";
@@ -188,5 +193,53 @@ public class HintsText {
 		output.TrimEnd('\n');
 
 		return output;
+	}
+
+	public string GetStaffChatTitle(AutoContentUpdateArg ev) {
+		// I really don't like the x ? y : z thing, but ig it works.
+		return _staffChatActiveMessage ? SLPlugin.Instance!.Config.CustomStaffChatTitle : string.Empty;
+	}
+
+	public string GetStaffChatSender(AutoContentUpdateArg ev) {
+		if (!_staffChatActiveMessage)
+			return string.Empty;
+
+		var name = string.Empty;
+
+		if (_staffChatSender.ReferenceHub.serverRoles.HasBadgeHidden)
+			name += $"<color=#A0A0A0>[{_staffChatSender.UserGroup!.BadgeText}]</color>";
+		else
+			name += $"<color=#{_staffChatSender.ReferenceHub.serverRoles.CurrentColor.ColorHex}>" +
+			        $"[{_staffChatSender.ReferenceHub.serverRoles.MyText.Trim('[', ']')}]</color> ";
+
+		name += _staffChatSender.DisplayName;
+
+		return name;
+	}
+
+	public string GetStaffChatMessage(AutoContentUpdateArg ev) {
+		return _staffChatActiveMessage ? _staffChatMessage : string.Empty;
+	}
+
+	internal static void ChangeMessage(Player sender, string message) {
+		_staffChatSender = sender;
+		_staffChatMessage = message;
+		_staffChatActiveMessage = true;
+	}
+
+	/// <summary>
+	/// Checks if a message is the same as a known one, and if so, clears it. This is so whenever a message is sent, a
+	/// delay of however long can be added, and if no new message has been sent, it'll hide. But if a new one is sent,
+	/// a new x second timer starts and the other one is ignored.
+	/// </summary>
+	internal static void RemoveMessage(string knownMessage) {
+		// Note: if two people send the same message, it will clear after the first 5s, but that prob won't happen
+		// a lot, so its probably fine.
+		// TODO: fix ^^^, make unique id for each message?
+		if (_staffChatMessage != knownMessage)
+			return;
+
+		// TODO: Make this clear the sender and message, and make those nullable and check in other parts
+		_staffChatActiveMessage = false;
 	}
 }

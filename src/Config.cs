@@ -26,4 +26,13 @@ public sealed class Config {
 
 	[Description("If the default staff chat broadcasts should be replaced with a custom UI.")]
 	public bool UseCustomStaffChat { get; set; } = true;
+
+	[Description("If notifications should be sent in staff chat for certain behaviours (ex. teamkills)")]
+	public bool StaffChatNotifications { get; set; } = true;
+
+	[Description("The title/header shown above staff chat messages (if custom staff chat is enabled).")]
+	public string CustomStaffChatTitle { get; set; } = "<color=red>Staff Chat</color>";
+
+	[Description("How long messages should appear in the custom staff chat when sent, in seconds.")]
+	public int CustomStaffChatMessageTime { get; set; } = 6;
 }
