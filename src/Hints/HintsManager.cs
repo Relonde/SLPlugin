@@ -86,10 +86,6 @@ public static class HintsManager {
 		foreach (var hint in hints) {
 			display.AddHint(hint);
 		}
-
-		foreach (var hint in display.GetHints()) {
-			Logger.Debug(hint.Id);
-		}
 	}
 
 	// ReSharper disable once AsyncVoidMethod

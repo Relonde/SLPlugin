@@ -26,8 +26,6 @@ public sealed class CustomStaffChatEventsHandler: CustomEventsHandler {
 			target.ReferenceHub.encryptedChannelManager.TrySendMessageToClient(
 				$"{player.ReferenceHub.netId}!{ev.Message}", EncryptedChannelManager.EncryptedChannel.AdminChat);
 			target.ClearBroadcasts();
-
-			Logger.Debug("Sent in channel");
 		}
 	}
 }
