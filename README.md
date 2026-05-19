@@ -26,5 +26,3 @@ In order that I implemented them:
 ## Permissions
 
 `slplugin.uammo` - Controls if a player can use the `unlimited_ammo` command.
-`slplugin.scsendnotif` - Controls if a player can manually send staff chat
-notifications in the style the plugin sends (if enabled).
