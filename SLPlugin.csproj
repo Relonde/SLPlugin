@@ -466,9 +466,11 @@
     <ItemGroup>
         <Compile Include="Properties\AssemblyInfo.cs"/>
         <Compile Include="src\Commands\KillCount.cs" />
+        <Compile Include="src\Commands\UnlimitedAmmo.cs" />
         <Compile Include="src\Config.cs" />
         <Compile Include="src\Events\HintsEventsHandler.cs" />
         <Compile Include="src\Events\KillCountEventsHandler.cs" />
+        <Compile Include="src\Events\UnlimitedAmmoEventsHandler.cs" />
         <Compile Include="src\Hints\HintsManager.cs" />
         <Compile Include="src\Hints\HintsText.cs" />
         <Compile Include="src\SLPlugin.cs" />

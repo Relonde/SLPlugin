@@ -14,3 +14,6 @@ In order that I implemented them:
   effects. Unlike the one in Brights however, the colours are actually good
   and not `#ff0000` and `#00ff00`. It also supports showing the time
   remaining and intensity as well.
+* An `unlimited_ammo` (`uammo` or `ua`) command to allow server staff to
+  never need to reload. This works by setting their gun (upon shooting)
+  to have max ammo for that gun, which causes it to always be full.

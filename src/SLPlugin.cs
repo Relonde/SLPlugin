@@ -42,6 +42,7 @@ public sealed class SLPlugin: Plugin<Config> {
 
 		EventHandlers.Add(new KillCountEventsHandler());
 		EventHandlers.Add(new HintsEventsHandler());
+		EventHandlers.Add(new UnlimitedAmmoEventsHandler());
 
 		foreach (var handler in EventHandlers) {
 			CustomHandlersManager.RegisterEventsHandler(handler);

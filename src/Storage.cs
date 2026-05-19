@@ -7,4 +7,9 @@ public static class Storage {
 	/// Dictionary storing player kill counts. The key (string) is their user ID, the int is their kill count.
 	/// </summary>
 	public static readonly Dictionary<string, int> Kills = new();
+
+	/// <summary>
+	/// List of players (using their user IDs) who have unlimited ammo enabled.
+	/// </summary>
+	public static readonly List<string> UnlimitedAmmoUsers = [];
 }
