@@ -22,6 +22,13 @@ In order that I implemented them:
   configurable by the server owner. It supports changing the style to
   whatever the server wants, and it still allows messages to appear
   normally in the RA.
+* `fakename` (or `fname` or `spoof`) command to allow staff to fake their
+  nicknames. Unlike using the base game `setnick`, this is completely
+  invisible to players and a star is **not** displayed after their name.
+  It completely replaces the name sent to the clients, though the server
+  (as seen in the RA player list and staff chat messages) will still see
+  the players actual name, though that's fine since only staff will be
+  able to see information that would use their real name.
 
 ## Known issues
 
