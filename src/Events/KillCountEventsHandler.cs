@@ -1,4 +1,4 @@
-﻿using LabApi.Events.Arguments.PlayerEvents;
+using LabApi.Events.Arguments.PlayerEvents;
 using LabApi.Events.Arguments.ServerEvents;
 using LabApi.Events.CustomHandlers;
 
@@ -14,9 +14,8 @@ public sealed class KillCountEventsHandler: CustomEventsHandler {
 			return;
 
 		// If they aren't in the storage already, add them with 1 kill, otherwise +1.
-		if (!Storage.Kills.TryAdd(ev.Attacker.UserId, 1)) {
+		if (!Storage.Kills.TryAdd(ev.Attacker.UserId, 1))
 			Storage.Kills[ev.Attacker.UserId] += 1;
-		}
 	}
 
 	/// <inheritdoc />
