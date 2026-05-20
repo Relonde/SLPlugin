@@ -465,10 +465,12 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Compile Include="src\Commands\FakeName.cs" />
         <Compile Include="src\Commands\KillCount.cs" />
         <Compile Include="src\Commands\UnlimitedAmmo.cs" />
         <Compile Include="src\Config.cs" />
         <Compile Include="src\Events\CustomStaffChatEventsHandler.cs" />
+        <Compile Include="src\Events\FakeNameEventsHandler.cs" />
         <Compile Include="src\Events\HintsEventsHandler.cs" />
         <Compile Include="src\Events\KillCountEventsHandler.cs" />
         <Compile Include="src\Events\UnlimitedAmmoEventsHandler.cs" />

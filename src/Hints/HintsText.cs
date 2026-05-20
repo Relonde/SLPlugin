@@ -6,6 +6,7 @@ using System.Text;
 using CustomPlayerEffects;
 using HintServiceMeow.Core.Models.Arguments;
 using LabApi.Features.Wrappers;
+using PlayerRoles;
 using PlayerRoles.Voice;
 
 // Apparently HSM has a stroke if the methods to get text are static.
@@ -14,8 +15,8 @@ using PlayerRoles.Voice;
 namespace SLPlugin.Hints;
 
 public sealed class HintsText {
-	private static Player _staffChatSender;
-	private static string _staffChatMessage;
+	private static Player? _staffChatSender;
+	private static string? _staffChatMessage;
 	private static bool _staffChatActiveMessage;
 
 	/// <summary>
@@ -46,12 +47,12 @@ public sealed class HintsText {
 	/// Gets the text for the effectListHint
 	/// </summary>
 	public string GetEffectListText(AutoContentUpdateArg ev) {
-		if (!SLPlugin.Instance!.Config.ShowKillCountHint)
+		if (!SLPlugin.Instance!.Config.ShowEffectListHint)
 			return string.Empty;
 
 		var player = Player.Get(ev.PlayerDisplay.ReferenceHub);
 
-		if (player == null)
+		if (player == null || player.Role is RoleTypeId.None or RoleTypeId.Spectator or RoleTypeId.Overwatch)
 			return string.Empty;
 
 		var lines = new List<string>();
@@ -239,7 +240,8 @@ public sealed class HintsText {
 		if (_staffChatMessage != knownMessage)
 			return;
 
-		// TODO: Make this clear the sender and message, and make those nullable and check in other parts
 		_staffChatActiveMessage = false;
+		_staffChatMessage = null;
+		_staffChatSender = null;
 	}
 }

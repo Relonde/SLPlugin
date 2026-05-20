@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
@@ -35,4 +36,7 @@ public sealed class Config {
 
 	[Description("How long messages should appear in the custom staff chat when sent, in seconds.")]
 	public int CustomStaffChatMessageTime { get; set; } = 6;
+
+	[Description("The dictionary containg a players user ID and their fake name. This is edited by the plugin.")]
+	public Dictionary<string, string> FakeNames { get; set; } = [];
 }

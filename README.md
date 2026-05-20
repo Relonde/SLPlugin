@@ -33,10 +33,16 @@ In order that I implemented them:
 * The project overly contains `!` to suppress nullable warnings. I believe
   it should never be null for the usages, but this could definitely be
   improved/fixed.
-* `HintsText` stores the latest staff chat message forever until another
-  message is sent. This should be pretty easy to fix, ill do that later
+* The Dictionary containing spoofed player names `Config.FakeNames` is
+  reset upon full server restart, because apparently the shit config
+  system LabAPI uses can't handle dictionaries, because of course it
+  fucking can't. This should be pretty easy to fix by just storing it as
+  some encoded string, but I want to just finish this, so I will do that
+  whenever I do that.
 
 ## Permissions
 
 * `slplugin.uammo` - Controls if a player can use the `unlimited_ammo`
   command.
+* `slplugin.fakename` - Allows a user to fake their name with the
+  `fakename` command.
