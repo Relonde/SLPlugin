@@ -1,4 +1,7 @@
-﻿# SCP:SL plugin
+> [!WARNING]
+> **This is not a real SL plugin that should be used**. Unless you have been sent this repo by me (or by someone who I sent it to), there isn't much interesting here. It's a generic SL plugin. I'm also in the process of rewriting it, since it has some issues, primarily being the seperation of things. There's also a list of some others below.
+
+# SCP:SL plugin
 
 It's an SCP:SL plugin. I couldn't think of a creative name for it.
 
@@ -11,8 +14,7 @@ In order that I implemented them:
   reset to zero. People can see their count by a small hint in the bottom
   right (if enabled in the config), or by running `.kills` or `.k`.
 * A hint, similar to the one in Brights that shows a players current
-  effects. Unlike the one in Brights however, the colours are actually good
-  and not `#ff0000` and `#00ff00`. It supports showing the time
+  effects. It supports showing the time
   remaining and intensity as well. It also shows if a player is in god
   mode, has bypass, is on the global intercom, etc.
 * An `unlimited_ammo` (`uammo` or `ua`) command to allow server staff to
