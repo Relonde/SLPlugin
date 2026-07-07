@@ -1,5 +1,8 @@
 > [!WARNING]
-> **This is not a real SL plugin that should be used**. Unless you have been sent this repo by me (or by someone who I sent it to), there isn't much interesting here. It's a generic SL plugin. I'm also in the process of rewriting it, since it has some issues, primarily being the seperation of things. There's also a list of some others below.
+> **This is not a real SL plugin that should be used**. Unless you have been sent this repo by me (or by someone who I sent it to), there isn't much interesting here. It's a generic SL plugin. ~~I'm also in the process of rewriting it, since it has some issues, primarily being the seperation of things.~~ There's also a list of some others below.
+
+> [!NOTE]
+> This plugin has been deprecated in favor of another one which I have made. It replaces the functionality of this one, though its private as of writing (7 July). Please DM me on Discord for access.
 
 # SCP:SL plugin
 
